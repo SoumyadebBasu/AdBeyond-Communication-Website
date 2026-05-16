@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "check-schema": "node check_schema.cjs"
+  }
+}

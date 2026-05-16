@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directus CMS Content Checklist</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 { color: #111; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        h3 { color: #2563eb; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        ul { list-style-type: none; padding-left: 0; }
+        li { margin-bottom: 10px; display: flex; align-items: flex-start; }
+        li::before {
+            content: "☐";
+            margin-right: 10px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #0f172a;
+            font-weight: bold;
+        }
+        .note {
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .print-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #2563eb;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+        .print-btn:hover { background-color: #1d4ed8; }
+        @media print {
+            .print-btn { display: none; }
+            body { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Click Here to Save as PDF</button>
+
+    <h1>Directus CMS Content Checklist</h1>
+    <p>Here is a complete, organized checklist of all the content and assets you need to prepare for your Directus CMS. I have broken this down by the <strong>Collections</strong> you need to set up in Directus, along with the exact fields and the type of content required for each.</p>
+
+    <h3>1. Global Settings (Collection Name: <code>global_settings</code>)</h3>
+    <p><em>This should be set up as a <strong>Singleton</strong> collection. It controls site-wide elements.</em></p>
+    
+    <strong>Images:</strong>
+    <ul>
+        <li><strong><code>logo</code></strong> (Image File) - Your main brand logo.</li>
+        <li><strong><code>favicon</code></strong> (Image File) - The small icon that appears in the browser tab.</li>
+    </ul>
+
+    <strong>Text & Contact Info:</strong>
+    <ul>
+        <li><strong><code>site_title</code></strong> (String) - The name of your website (e.g., "AD-BEYOND").</li>
+        <li><strong><code>contact_email</code></strong> (String) - Your public contact email.</li>
+        <li><strong><code>contact_phone</code></strong> (String) - Your primary public contact phone number.</li>
+        <li><strong><code>contact_phone_2</code></strong> (String) - <em>Optional.</em> A secondary contact phone number.</li>
+        <li><strong><code>contact_address</code></strong> (Text Area) - Your physical address (can be multiple lines).</li>
+        <li><strong><code>whatsapp_number</code></strong> (String) - <em>Optional.</em> Number for WhatsApp integration.</li>
+        <li><strong><code>whatsapp_message</code></strong> (String) - <em>Optional.</em> Default pre-filled message for WhatsApp.</li>
+        <li><strong><code>map_embed_url</code></strong> (String) - <em>Optional.</em> Leave blank to auto-generate from your address, or paste a specific Google Maps embed URL.</li>
+    </ul>
+
+    <h3>2. Home Page (Collection Name: <code>home_page</code>)</h3>
+    <p><em>This should be set up as a <strong>Singleton</strong> collection. It controls the main landing page.</em></p>
+
+    <strong>Hero Section:</strong>
+    <ul>
+        <li><strong><code>hero_title</code></strong> (String) - Main headline (e.g., "Amplifying Impact").</li>
+        <li><strong><code>hero_title_highlight</code></strong> (String) - The part of the headline you want highlighted in a different color.</li>
+        <li><strong><code>hero_subtitle</code></strong> (Text) - The paragraph text under the main headline.</li>
+        <li><strong><code>hero_video_url</code></strong> (String) - A direct URL to an <code>.mp4</code> video file to play in the background.</li>
+    </ul>
+
+    <strong>Trusted By (Partners/Clients):</strong>
+    <ul>
+        <li><strong><code>trusted_by</code></strong> (JSON or Repeater) - A list of partner names (e.g., <code>[{ "name": "UNICEF" }, { "name": "WHO" }]</code>).</li>
+    </ul>
+
+    <strong>Testimonial Section:</strong>
+    <ul>
+        <li><strong><code>testimonial_quote</code></strong> (Text Area) - The main body of the review.</li>
+        <li><strong><code>testimonial_highlight</code></strong> (String) - A short, punchy pull-quote from the review.</li>
+        <li><strong><code>testimonial_author</code></strong> (String) - Name of the person giving the review.</li>
+        <li><strong><code>testimonial_role</code></strong> (String) - Their job title / organization.</li>
+        <li><strong><code>testimonial_image</code></strong> (Image File) - A photo of the author.</li>
+    </ul>
+
+    <strong>Portfolio Galleries (JSON or Repeaters):</strong>
+    <ul>
+        <li><strong><code>reels_gallery</code></strong> - A list of video projects. Each needs: <code>title</code>, <code>description</code>, <code>youtube_id</code> (optional), <code>video_file</code> (optional), and a thumbnail <code>image</code>.</li>
+        <li><strong><code>reports_gallery</code></strong> - A list of report projects. Each needs: <code>title</code> and an <code>image</code>.</li>
+        <li><strong><code>workshops_gallery</code></strong> - A list of workshop projects. Each needs: <code>title</code> and an <code>image</code>.</li>
+        <li><strong><code>print_gallery</code></strong> - A list of print projects. Each needs: <code>title</code> and an <code>image</code>.</li>
+    </ul>
+
+    <h3>3. Services (Collection Name: <code>services</code>)</h3>
+    <p><em>This should be set up as a standard <strong>Multiple Items</strong> collection. You will create one entry for each service you offer.</em></p>
+
+    <strong>Basic Info (Used on Home Page & Service Page):</strong>
+    <ul>
+        <li><strong><code>title</code></strong> (String) - Name of the service.</li>
+        <li><strong><code>slug</code></strong> (String) - The URL path (e.g., <code>social-media-strategy</code>). <strong>Must be lowercase with hyphens.</strong></li>
+        <li><strong><code>short_description</code></strong> (Text) - A 1-2 sentence summary for the homepage card.</li>
+        <li><strong><code>home_icon</code></strong> (String) - The name of the icon to use (e.g., <code>megaphone</code>, <code>camera</code>, <code>layout</code>, <code>video</code>).</li>
+        <li><strong><code>home_image</code></strong> (Image File) - The preview image shown on the homepage card.</li>
+        <li><strong><code>tags</code></strong> (JSON or Repeater) - A list of keywords (e.g., <code>[{ "tag": "Strategy" }, { "tag": "Content" }]</code>).</li>
+    </ul>
+
+    <strong>Service Page Details:</strong>
+    <ul>
+        <li><strong><code>hero_subtitle</code></strong> (Text Area) - The introductory paragraph on the specific service page.</li>
+        <li><strong><code>hero_image</code></strong> (Image File) - The large banner image at the top of the service page.</li>
+        <li><strong><code>stat_number</code></strong> (String) - A highlight metric (e.g., "500+", "10M").</li>
+        <li><strong><code>stat_label</code></strong> (String) - What the metric represents (e.g., "Campaigns Launched").</li>
+    </ul>
+
+    <strong>Features/Offerings Section:</strong>
+    <ul>
+        <li><strong><code>cards_section_title</code></strong> (String) - Headline for the features area (e.g., "What We Deliver").</li>
+        <li><strong><code>cards_section_subtitle</code></strong> (Text) - Short description for the features area.</li>
+        <li><strong><code>cards</code></strong> (JSON or Repeater) - The specific offerings within this service. Each card needs: <code>title</code>, <code>description</code>, <code>icon</code> (string), and <code>features</code> (a list of bullet points).</li>
+    </ul>
+
+    <strong>Service Gallery:</strong>
+    <ul>
+        <li><strong><code>gallery_label</code></strong> (String) - Small eyebrow text (e.g., "Our Work").</li>
+        <li><strong><code>gallery_section_title</code></strong> (String) - Headline for the gallery (e.g., "Recent Campaigns").</li>
+        <li><strong><code>gallery_section_subtitle</code></strong> (Text) - Short description for the gallery.</li>
+        <li><strong><code>gallery_items</code></strong> (JSON or Repeater) - The portfolio pieces for this specific service. Each needs: <code>title</code>, <code>subtitle</code>, and an <code>image</code>.</li>
+    </ul>
+
+    <h3>4. Contact Messages (Collection Name: <code>contact_messages</code>)</h3>
+    <p><em>You do <strong>not</strong> need to prepare content for this, but you MUST ensure this collection exists so the website can save form submissions!</em></p>
+    <ul>
+        <li><code>full_name</code> (String)</li>
+        <li><code>email</code> (String)</li>
+        <li><code>phone</code> (String)</li>
+        <li><code>organization</code> (String)</li>
+        <li><code>service_of_interest</code> (String)</li>
+        <li><code>message</code> (Text Area)</li>
+    </ul>
+
+    <div class="note">
+        <strong>Pro-Tip for Directus Setup:</strong> For fields like <code>trusted_by</code>, <code>tags</code>, <code>cards</code>, and the <code>galleries</code>, the easiest way to set them up in Directus without creating complex relational tables is to use the <strong>"JSON"</strong> field type, and set the interface to <strong>"Repeater"</strong> or <strong>"Raw"</strong>.
+    </div>
+
+</body>
+</html>
