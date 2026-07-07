@@ -7,11 +7,11 @@ import {
   Megaphone, Search, Smartphone, MapPin, Mail, Phone, Printer
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { getAssetUrl, PortfolioItem } from '../lib/directus';
+import { getAssetUrl, getAssetSrcSet, PortfolioItem } from '../lib/directus';
 import { SpotlightButton } from '../components/SpotlightButton';
 import { PortfolioModal } from '../components/PortfolioModal';
 import { HoverMedia } from '../components/HoverMedia';
-import { useGlobalSettings, useHomePage, useServices, usePortfolioFeaturedHome, useCreateContactMessage } from '../hooks/useDirectus';
+import { useGlobalSettings, useHomePage, useServices, usePortfolioFeaturedHome } from '../hooks/useDirectus';
 
 const iconMap: Record<string, React.ReactNode> = {
   'compass': <Compass className="w-8 h-8" />,
@@ -52,7 +52,6 @@ export function Home() {
   const { data: homeData, isLoading: isHomeLoading, isError: isHomeError } = useHomePage();
   const { data: services } = useServices(true);
   const { data: featuredPortfolio } = usePortfolioFeaturedHome();
-  const contactMutation = useCreateContactMessage();
 
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
 
@@ -83,13 +82,42 @@ export function Home() {
   });
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError('');
+
+    if (formData.phone) {
+      const phoneRegex = /^\+?[0-9\-\s\(\)]{8,20}$/;
+      if (!phoneRegex.test(formData.phone)) {
+        setSubmitError('Please enter a valid phone number.');
+        return;
+      }
+    }
+
+    setIsSubmitting(true);
     
-    contactMutation.mutate(formData, {
-      onSuccess: () => {
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "1b3e5b53-a84b-48cf-94b3-fb554dc803ed",
+          name: formData.full_name,
+          email: formData.email,
+          phone: formData.phone,
+          organization: formData.organization,
+          service_of_interest: formData.service_of_interest,
+          message: formData.message,
+          subject: `New Consultation Request from ${formData.full_name}`,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
         setSubmitSuccess(true);
         setFormData({
           full_name: '',
@@ -100,11 +128,14 @@ export function Home() {
           message: ''
         });
         setTimeout(() => setSubmitSuccess(false), 5000);
-      },
-      onError: () => {
-        setSubmitError('Failed to send message. Please try again later.');
+      } else {
+        setSubmitError(result.message || 'Failed to send message. Please try again later.');
       }
-    });
+    } catch (err) {
+      setSubmitError('Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -136,7 +167,7 @@ export function Home() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center px-8 bg-surface overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center px-4 md:px-8 bg-surface overflow-hidden">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -147,7 +178,7 @@ export function Home() {
             <span className="inline-block py-1 px-3 mb-6 rounded-full bg-tertiary-container/20 text-tertiary-container text-[10px] font-bold tracking-[0.2em] uppercase">
               Marketing for Social Good
             </span>
-            <h1 className="font-headline text-6xl md:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.95] mb-8">
+            <h1 className="font-headline text-[clamp(2.5rem,11vw,4rem)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.95] mb-8">
               {homeData.hero_title_highlight ? 
                 homeData.hero_title.split(new RegExp(`(${homeData.hero_title_highlight})`, 'gi')).map((part, i) => (
                   part.toLowerCase() === homeData.hero_title_highlight?.toLowerCase() 
@@ -194,6 +225,8 @@ export function Home() {
                   alt="Hero Image" 
                   className="w-full h-full object-cover" 
                   src={getAssetUrl(homeData.hero_image) || undefined}
+                  srcSet={getAssetSrcSet(homeData.hero_image) || undefined}
+                  sizes="100vw"
                 />
               ) : (
                 <img 
@@ -395,6 +428,8 @@ export function Home() {
                       alt={service.title} 
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
                       src={getAssetUrl(service.home_image)} 
+                      srcSet={getAssetSrcSet(service.home_image)}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:bg-transparent transition-colors"></div>
@@ -432,6 +467,8 @@ export function Home() {
             <div className="relative h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
               <img 
                 src={homeData.about_image ? getAssetUrl(homeData.about_image) : "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80"} 
+                srcSet={homeData.about_image ? getAssetSrcSet(homeData.about_image) : undefined}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 alt={homeData.about_headline || "Adbeyond Team Collaboration"} 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -478,7 +515,7 @@ export function Home() {
                       <div className="flex items-center gap-4">
                         {homeData.testimonials[activeTestimonialIndex].image && (
                           <img 
-                            src={getAssetUrl(homeData.testimonials[activeTestimonialIndex].image)} 
+                            src={getAssetUrl(homeData.testimonials[activeTestimonialIndex].image, true, 96)} 
                             alt={homeData.testimonials[activeTestimonialIndex].author} 
                             className="w-12 h-12 rounded-full object-cover"
                             referrerPolicy="no-referrer"
@@ -514,6 +551,8 @@ export function Home() {
                   {partner.logo ? (
                     <img 
                       src={getAssetUrl(partner.logo)} 
+                      srcSet={getAssetSrcSet(partner.logo)}
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                       alt={partner.name} 
                       className="max-h-full max-w-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 scale-95 group-hover:scale-105"
                     />
@@ -632,6 +671,8 @@ export function Home() {
                       className="w-full bg-surface-container-high border-none rounded-xl p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" 
                       placeholder="+1 (555) 000-0000" 
                       type="tel" 
+                      pattern="^\+?[0-9\-\s\(\)]{8,20}$"
+                      title="Please enter a valid phone number, e.g. +1 555 123 4567"
                     />
                   </div>
                   <div>
@@ -684,11 +725,11 @@ export function Home() {
                 )}
 
                 <button 
-                  disabled={contactMutation.isPending}
+                  disabled={isSubmitting}
                   type="submit"
                   className="w-full bg-gradient-to-r from-primary to-primary-container text-white py-5 rounded-xl font-headline font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-primary/20 hover:-translate-y-1 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {contactMutation.isPending ? 'Sending...' : 'Initiate Consultation'}
+                  {isSubmitting ? 'Sending...' : 'Initiate Consultation'}
                 </button>
               </form>
             </div>

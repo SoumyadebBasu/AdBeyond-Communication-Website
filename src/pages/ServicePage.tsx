@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { cn } from '../lib/utils';
-import { getAssetUrl, PortfolioItem, Service } from '../lib/directus';
+import { getAssetUrl, getAssetSrcSet, PortfolioItem, Service } from '../lib/directus';
 import { SpotlightCard } from '../components/SpotlightCard';
 import { SpotlightButton } from '../components/SpotlightButton';
 import { PortfolioModal } from '../components/PortfolioModal';
@@ -86,11 +86,11 @@ export function ServicePage() {
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-5"
+            className="lg:col-span-6 z-10"
           >
             <span className="text-primary font-headline font-extrabold tracking-widest text-xs uppercase mb-4 block">Strategic Impact</span>
-            <h1 className="text-5xl md:text-7xl font-headline font-black tracking-tighter text-on-surface leading-[0.95] mb-6">
-              {serviceData.title.split(' ').slice(0, -1).join(' ')} <br /><span className="text-primary">{serviceData.title.split(' ').slice(-1)}</span>
+            <h1 className="text-[clamp(2.5rem,8vw,4rem)] md:text-5xl lg:text-6xl xl:text-7xl font-headline font-black tracking-tighter text-on-surface leading-[0.95] mb-6 break-words" style={{ hyphenateCharacter: "auto" }}>
+              {serviceData.title.split(' ').slice(0, -1).join(' ')} <br className="hidden sm:block" /><span className="text-primary">{serviceData.title.split(' ').slice(-1)}</span>
             </h1>
             <p className="text-lg text-secondary leading-relaxed mb-10 max-w-md">
               {serviceData.hero_subtitle || serviceData.short_description}
@@ -102,12 +102,14 @@ export function ServicePage() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-7 relative"
+            className="lg:col-span-6 relative"
           >
             <div className="aspect-square rounded-[3rem] overflow-hidden bg-surface-container-low relative">
               <img 
                 className="w-full h-full object-cover" 
                 src={getAssetUrl(serviceData.hero_image)} 
+                srcSet={getAssetSrcSet(serviceData.hero_image)}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 referrerPolicy="no-referrer"
                 alt={serviceData.title}
               />
@@ -192,6 +194,8 @@ export function ServicePage() {
                 <img 
                   className="w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105" 
                   src={getAssetUrl(item.image)} 
+                  srcSet={getAssetSrcSet(item.image)}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   referrerPolicy="no-referrer"
                   alt={item.title}
                 />

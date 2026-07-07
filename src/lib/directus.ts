@@ -118,7 +118,7 @@ interface Schema {
 
 export const directus = createDirectus<Schema>(DIRECTUS_URL).with(rest());
 
-export const getAssetUrl = (id: string | { id: string } | undefined | null, optimize: boolean = true) => {
+export const getAssetUrl = (id: string | { id: string } | undefined | null, optimize: boolean = true, width?: number) => {
   if (!id) return undefined;
   const assetId = typeof id === 'string' ? id : id.id;
   
@@ -128,6 +128,16 @@ export const getAssetUrl = (id: string | { id: string } | undefined | null, opti
   }
   
   // Use Directus built-in image transformations to serve optimized WebP images
-  return `${DIRECTUS_URL}assets/${assetId}?format=webp&quality=80`;
+  let url = `${DIRECTUS_URL}assets/${assetId}?format=webp&quality=80`;
+  if (width) {
+    url += `&width=${width}`;
+  }
+  return url;
+};
+
+export const getAssetSrcSet = (id: string | { id: string } | undefined | null) => {
+  if (!id) return undefined;
+  const widths = [400, 800, 1200, 1600, 2000];
+  return widths.map(w => `${getAssetUrl(id, true, w)} ${w}w`).join(', ');
 };
 

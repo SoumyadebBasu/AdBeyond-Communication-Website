@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAssetUrl, PortfolioItem } from '../lib/directus';
+import { getAssetUrl, getAssetSrcSet, PortfolioItem } from '../lib/directus';
 
 export const HoverMedia = ({ item, imgClassName, disableHover = false }: { item: PortfolioItem, imgClassName?: string, disableHover?: boolean }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -37,6 +37,8 @@ export const HoverMedia = ({ item, imgClassName, disableHover = false }: { item:
         className={`${imgClassName || ''} absolute inset-0 w-full h-full object-cover ${hasVideo && isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300 z-10 pointer-events-none`} 
         alt={item.title || 'Portfolio item'} 
         src={getAssetUrl(item.image) || undefined}
+        srcSet={getAssetSrcSet(item.image) || undefined}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
     </div>
   );

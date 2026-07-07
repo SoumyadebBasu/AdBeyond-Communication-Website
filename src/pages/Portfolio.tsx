@@ -74,8 +74,8 @@ export function Portfolio() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-12 md:col-span-8">
-              <h1 className="text-6xl md:text-8xl font-headline font-extrabold tracking-tighter text-on-surface mb-6 leading-[0.9]">
-                Our Impact <br/><span className="text-primary">in Action</span>
+              <h1 className="text-[clamp(3rem,18vw,8rem)] sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-headline font-extrabold tracking-tighter text-on-surface mb-6 leading-[0.95] sm:leading-[0.9]">
+                Our <br className="block sm:hidden" />Impact <br/><span className="text-primary">in Action</span>
               </h1>
               <p className="text-xl md:text-2xl text-secondary max-w-2xl leading-relaxed">
                 Architecting digital narratives that amplify non-profit missions. From global conservation to local urban renewal, we design the catalysts for change.
@@ -229,7 +229,7 @@ export function Portfolio() {
             <div>
               <h2 className="text-4xl font-headline font-bold mb-6">{capacityBuilding.title}</h2>
               <p className="text-secondary leading-relaxed mb-8">{capacityBuilding.desc}</p>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mt-8 border-t border-primary/10 pt-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mt-8 border-t border-primary/10 pt-6">
                 <div className="flex flex-wrap gap-2">
                   {(capacityBuilding.tags || []).map((tagObj, i) => {
                     const tagText = typeof tagObj === 'string' ? tagObj : tagObj.tag;

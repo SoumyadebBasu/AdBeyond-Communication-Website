@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { getAssetUrl, PortfolioItem } from '../lib/directus';
+import { getAssetUrl, getAssetSrcSet, PortfolioItem } from '../lib/directus';
 
 interface PortfolioModalProps {
   item: PortfolioItem | null;
@@ -31,6 +31,9 @@ export function PortfolioModal({ item, onClose }: PortfolioModalProps) {
     }
   };
 
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
     if (item) {
       document.body.style.overflow = 'hidden';
@@ -38,13 +41,26 @@ export function PortfolioModal({ item, onClose }: PortfolioModalProps) {
         scrollRef.current.scrollLeft = 0;
       }
       setTimeout(checkScroll, 100);
+
+      const handlePopState = () => {
+        onCloseRef.current();
+      };
+      
+      window.history.pushState({ modal: 'portfolio' }, '', window.location.href);
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('popstate', handlePopState);
+        if (window.history.state?.modal === 'portfolio') {
+          window.history.back();
+        }
+      };
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [item]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!item]);
 
   useEffect(() => {
     window.addEventListener('resize', checkScroll);
@@ -124,6 +140,8 @@ export function PortfolioModal({ item, onClose }: PortfolioModalProps) {
               ) : slide.image ? (
                 <img 
                   src={getAssetUrl(slide.image) || undefined} 
+                  srcSet={getAssetSrcSet(slide.image) || undefined}
+                  sizes="100vw"
                   alt={slide.title || `Slide ${idx + 1}`} 
                   className="absolute inset-0 w-full h-full object-contain z-0"
                 />
