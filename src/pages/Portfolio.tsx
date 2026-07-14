@@ -388,8 +388,8 @@ export function Portfolio() {
       {/* Final CTA */}
       <section className="px-8 py-24 bg-surface">
         <SpotlightCard spotlightSize={250} className="max-w-5xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-headline font-extrabold text-white mb-8 tracking-tighter">Ready to Amplify Your Mission?</h2>
-          <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto">Let's architect your next big impact. Our team is ready to turn your vision into a visual catalyst for change.</p>
+          <h2 className="text-[clamp(1.75rem,4.5vw,3.75rem)] font-headline font-extrabold text-white mb-8 tracking-tighter leading-[1.1]">Ready to Amplify Your Mission?</h2>
+          <p className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed">Let's architect your next big impact. Our team is ready to turn your vision into a visual catalyst for change.</p>
           <SpotlightButton className="bg-white text-primary px-10 py-4 rounded-xl font-bold text-lg">
             Start Your Journey
           </SpotlightButton>

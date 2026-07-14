@@ -151,7 +151,7 @@ export function Home() {
     if (homeData?.testimonials && homeData.testimonials.length > 1) {
       const interval = setInterval(() => {
         setActiveTestimonialIndex((prev) => (prev + 1) % homeData.testimonials.length);
-      }, 6000);
+      }, 12000);
       return () => clearInterval(interval);
     }
   }, [homeData?.testimonials]);
@@ -488,47 +488,83 @@ export function Home() {
             <div className="h-px bg-primary flex-grow"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div className="space-y-8 relative min-h-[300px]">
-              <div className="text-editorial-glow h-full">
-                <span className="text-primary text-5xl mb-6 block">"</span>
-                
-                <AnimatePresence mode="wait">
-                  {homeData.testimonials && homeData.testimonials.length > 0 && (
-                    <motion.div
-                      key={activeTestimonialIndex}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.8, ease: "easeInOut" }}
-                    >
-                      <p className="text-3xl font-light leading-snug mb-8 min-h-[160px]">
-                        {homeData.testimonials[activeTestimonialIndex].highlight 
-                          ? homeData.testimonials[activeTestimonialIndex].quote?.split(homeData.testimonials[activeTestimonialIndex].highlight).map((part: string, i: number, arr: any[]) => (
-                              <React.Fragment key={i}>
-                                {part}
-                                {i < arr.length - 1 && <span className="text-primary font-bold">{homeData.testimonials[activeTestimonialIndex].highlight}</span>}
-                              </React.Fragment>
-                            ))
-                          : homeData.testimonials[activeTestimonialIndex].quote
-                        }
-                      </p>
-                      <div className="flex items-center gap-4">
-                        {homeData.testimonials[activeTestimonialIndex].image && (
-                          <img 
-                            src={getAssetUrl(homeData.testimonials[activeTestimonialIndex].image, true, 96)} 
-                            alt={homeData.testimonials[activeTestimonialIndex].author} 
-                            className="w-12 h-12 rounded-full object-cover"
-                            referrerPolicy="no-referrer"
-                          />
-                        )}
-                        <div>
-                          <h4 className="font-headline font-bold text-lg">{homeData.testimonials[activeTestimonialIndex].author}</h4>
-                          <p className="text-neutral-500 uppercase text-xs tracking-widest font-bold mt-1">{homeData.testimonials[activeTestimonialIndex].role}</p>
+            <div className="space-y-8 relative min-h-[300px] flex flex-col">
+              <div className="text-editorial-glow h-full flex flex-col justify-between">
+                <div>
+                  <span className="text-primary text-5xl mb-6 block">"</span>
+                  
+                  <div className="relative">
+                    {/* Hidden grid to reserve the height of the tallest testimonial */}
+                    <div className="grid grid-cols-1 grid-rows-1 invisible pointer-events-none select-none" aria-hidden="true">
+                      {homeData.testimonials && homeData.testimonials.length > 0 && homeData.testimonials.map((testimonial: any, idx: number) => (
+                        <div key={idx} style={{ gridArea: '1 / 1 / 2 / 2' }}>
+                          <p className="text-3xl font-light leading-snug mb-8 min-h-[160px]">
+                            {testimonial.highlight 
+                              ? testimonial.quote?.split(testimonial.highlight).map((part: string, i: number, arr: any[]) => (
+                                  <React.Fragment key={i}>
+                                    {part}
+                                    {i < arr.length - 1 && <span className="text-primary font-bold">{testimonial.highlight}</span>}
+                                  </React.Fragment>
+                                ))
+                              : testimonial.quote
+                            }
+                          </p>
+                          <div className="flex items-center gap-4">
+                            {testimonial.image && (
+                              <div className="w-12 h-12 rounded-full bg-neutral-800" />
+                            )}
+                            <div>
+                              <h4 className="font-headline font-bold text-lg">{testimonial.author}</h4>
+                              <p className="text-neutral-500 uppercase text-xs tracking-widest font-bold mt-1">{testimonial.role}</p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      ))}
+                    </div>
+
+                    {/* Absolute container for the active animated testimonial */}
+                    <div className="absolute inset-0">
+                      <AnimatePresence mode="wait">
+                        {homeData.testimonials && homeData.testimonials.length > 0 && (
+                          <motion.div
+                            key={activeTestimonialIndex}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.8, ease: "easeInOut" }}
+                            className="h-full flex flex-col justify-between"
+                          >
+                            <p className="text-3xl font-light leading-snug mb-8 min-h-[160px]">
+                              {homeData.testimonials[activeTestimonialIndex].highlight 
+                                ? homeData.testimonials[activeTestimonialIndex].quote?.split(homeData.testimonials[activeTestimonialIndex].highlight).map((part: string, i: number, arr: any[]) => (
+                                    <React.Fragment key={i}>
+                                      {part}
+                                      {i < arr.length - 1 && <span className="text-primary font-bold">{homeData.testimonials[activeTestimonialIndex].highlight}</span>}
+                                    </React.Fragment>
+                                  ))
+                                : homeData.testimonials[activeTestimonialIndex].quote
+                              }
+                            </p>
+                            <div className="flex items-center gap-4">
+                              {homeData.testimonials[activeTestimonialIndex].image && (
+                                <img 
+                                  src={getAssetUrl(homeData.testimonials[activeTestimonialIndex].image, true, 96)} 
+                                  alt={homeData.testimonials[activeTestimonialIndex].author} 
+                                  className="w-12 h-12 rounded-full object-cover"
+                                  referrerPolicy="no-referrer"
+                                />
+                              )}
+                              <div>
+                                <h4 className="font-headline font-bold text-lg">{homeData.testimonials[activeTestimonialIndex].author}</h4>
+                                <p className="text-neutral-500 uppercase text-xs tracking-widest font-bold mt-1">{homeData.testimonials[activeTestimonialIndex].role}</p>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Optional pager dots if there are multiple */}
                 {homeData.testimonials && homeData.testimonials.length > 1 && (
@@ -546,21 +582,69 @@ export function Home() {
               </div>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 items-center">
-              {(homeData.trusted_partners?.length ? homeData.trusted_partners : homeData.trusted_by)?.map((partner, i) => (
-                <div key={i} className="h-24 md:h-32 lg:h-40 flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity duration-500 group">
-                  {partner.logo ? (
-                    <img 
-                      src={getAssetUrl(partner.logo)} 
-                      srcSet={getAssetSrcSet(partner.logo)}
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                      alt={partner.name} 
-                      className="max-h-full max-w-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 scale-95 group-hover:scale-105"
-                    />
-                  ) : (
-                    <span className="font-headline text-3xl md:text-4xl font-black tracking-tighter uppercase text-center transition-all duration-500 scale-95 group-hover:scale-105">{partner.name}</span>
-                  )}
-                </div>
-              ))}
+              {(homeData.trusted_partners?.length ? homeData.trusted_partners : homeData.trusted_by)?.map((partner, i) => {
+                const activeTestimonial = homeData.testimonials && homeData.testimonials[activeTestimonialIndex];
+                
+                const isMatched = (() => {
+                  if (!activeTestimonial) return false;
+                  
+                  // Helper to safely get directus asset ID
+                  const getAssetId = (asset: any) => {
+                    if (!asset) return null;
+                    return typeof asset === 'string' ? asset : asset.id;
+                  };
+
+                  const partnerLogoId = getAssetId(partner.logo);
+                  const testimonialImageId = getAssetId(activeTestimonial.image);
+
+                  // Match by image/logo ID
+                  if (partnerLogoId && testimonialImageId && partnerLogoId === testimonialImageId) {
+                    return true;
+                  }
+
+                  if (!partner.name) return false;
+                  
+                  // Match by name
+                  const escapedName = partner.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                  const regex = new RegExp(`(?:\\b|^)${escapedName}(?:\\b|$)`, 'i');
+                  return (
+                    (activeTestimonial.role && regex.test(activeTestimonial.role)) ||
+                    (activeTestimonial.quote && regex.test(activeTestimonial.quote)) ||
+                    (activeTestimonial.author && regex.test(activeTestimonial.author))
+                  );
+                })();
+
+                return (
+                  <div 
+                    key={i} 
+                    className={`h-24 md:h-32 lg:h-40 flex items-center justify-center transition-opacity duration-500 group ${
+                      isMatched ? 'opacity-100' : 'opacity-50 hover:opacity-100'
+                    }`}
+                  >
+                    {partner.logo ? (
+                      <img 
+                        src={getAssetUrl(partner.logo)} 
+                        srcSet={getAssetSrcSet(partner.logo)}
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                        alt={partner.name} 
+                        className={`max-h-full max-w-full object-contain transition-all duration-500 ${
+                          isMatched 
+                            ? 'grayscale-0 scale-105' 
+                            : 'grayscale group-hover:grayscale-0 scale-95 group-hover:scale-105'
+                        }`}
+                      />
+                    ) : (
+                      <span className={`font-headline text-3xl md:text-4xl font-black tracking-tighter uppercase text-center transition-all duration-500 ${
+                        isMatched 
+                          ? 'scale-105' 
+                          : 'scale-95 group-hover:scale-105'
+                      }`}>
+                        {partner.name}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

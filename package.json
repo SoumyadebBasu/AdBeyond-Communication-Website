@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "run-setup": "node ./add_sub_image_video_fields.mjs"
+    "run-setup": "node ./cms-scripts/add_sub_image_video_fields.mjs"
   },
   "dependencies": {
     "@directus/sdk": "^21.2.2",

@@ -95,7 +95,10 @@ export function ServicePage() {
             <p className="text-lg text-secondary leading-relaxed mb-10 max-w-md">
               {serviceData.hero_subtitle || serviceData.short_description}
             </p>
-            <SpotlightButton className="bg-primary text-white px-8 py-4 rounded-xl font-headline font-bold text-base shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+            <SpotlightButton 
+              onClick={() => navigate('/#contact')}
+              className="bg-primary text-white px-8 py-4 rounded-xl font-headline font-bold text-base shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity"
+            >
               Start Your Campaign
             </SpotlightButton>
           </motion.div>
@@ -221,16 +224,19 @@ export function ServicePage() {
       {/* CTA */}
       <section className="py-24 px-8 max-w-7xl mx-auto">
         <SpotlightCard spotlightSize={200}>
-          <h2 className="text-4xl md:text-6xl font-headline font-black mb-6 uppercase">
-            {serviceData.cta_title || "Ready to amplify your mission?"}
+          <h2 className="text-[clamp(1.75rem,4.5vw,3.75rem)] font-headline font-black mb-6 uppercase leading-[1.1] tracking-tight">
+            {serviceData.cta_title || (
+              <>Digital growth, <br />tailored to your needs.</>
+            )}
           </h2>
-          <p className="text-xl mb-10 opacity-90 max-w-2xl mx-auto">
-            {serviceData.cta_subtitle || "Join over 50 non-profits who have transformed their digital presence with Adbeyond."}
+          <p className="text-lg md:text-xl mb-10 opacity-90 max-w-2xl mx-auto leading-relaxed">
+            {serviceData.cta_subtitle || "No rigid packages. Just flexible, requirement-driven digital support designed to help your non-profit thrive."}
           </p>
           <SpotlightButton 
+            onClick={() => navigate('/#contact')}
             className="bg-white text-primary px-10 py-4 rounded-xl font-headline font-bold text-lg hover:bg-neutral-100 transition-colors shadow-md"
           >
-            {serviceData.cta_button_text || "Start Your Campaign"}
+            {serviceData.cta_button_text || "Start Your Tailored Plan"}
           </SpotlightButton>
         </SpotlightCard>
       </section>

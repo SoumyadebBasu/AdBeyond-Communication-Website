@@ -27,7 +27,7 @@ export function SpotlightCard({ children, className, spotlightSize = 200, ...pro
       whileHover={{ scale: 1.02, y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={cn(
-        "bg-primary text-white rounded-[3rem] p-16 text-center relative overflow-hidden shadow-xl hover:shadow-2xl cursor-pointer group",
+        "bg-primary text-white rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden shadow-xl hover:shadow-2xl cursor-pointer group",
         className
       )}
       {...props}
