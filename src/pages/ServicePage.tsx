@@ -185,38 +185,41 @@ export function ServicePage() {
             )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(featuredItems || []).map((item) => (
-              <div 
-                key={item.id} 
-                className={cn(
-                  "group relative overflow-hidden rounded-3xl bg-neutral-900 cursor-pointer",
-                  item.category === 'image_post' ? 'aspect-[5/4]' : 'aspect-[3/4]'
-                )}
-                onClick={() => setSelectedItem(item)}
-              >
-                <img 
-                  className="w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105" 
-                  src={getAssetUrl(item.image)} 
-                  srcSet={getAssetSrcSet(item.image)}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  referrerPolicy="no-referrer"
-                  alt={item.title}
-                />
-                <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                  <h3 className="text-white font-headline font-bold text-xl mb-2">{item.title}</h3>
-                  {item.category === 'videography' && item.description ? (
-                    <div className="mt-2 text-white/80 text-sm font-medium line-clamp-2 lg:line-clamp-3">
-                       {item.description}
-                    </div>
-                  ) : (
-                    <div className="mt-4 flex items-center gap-2 text-white/80 text-[10px] font-bold tracking-widest uppercase">
-                      {item.category !== 'image_post' && item.category !== 'print' && item.category !== 'videography' && <PlayCircle className="w-4 h-4" />}
-                      {item.category.replace('_', ' ')}
-                    </div>
+            {(featuredItems || []).map((item) => {
+              const isNewsletter = item.category === 'newsletter';
+              return (
+                <div 
+                  key={item.id} 
+                  className={cn(
+                    "group relative overflow-hidden rounded-3xl bg-neutral-900 cursor-pointer",
+                    isNewsletter ? 'md:col-span-2 aspect-video' : (item.category === 'image_post' ? 'aspect-[5/4]' : 'aspect-[3/4]')
                   )}
+                  onClick={() => setSelectedItem(item)}
+                >
+                  <img 
+                    className="w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105" 
+                    src={getAssetUrl(item.image)} 
+                    srcSet={getAssetSrcSet(item.image)}
+                    sizes={isNewsletter ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"}
+                    referrerPolicy="no-referrer"
+                    alt={item.title}
+                  />
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <h3 className="text-white font-headline font-bold text-xl mb-2">{item.title}</h3>
+                    {item.category === 'videography' && item.description ? (
+                      <div className="mt-2 text-white/80 text-sm font-medium line-clamp-2 lg:line-clamp-3">
+                         {item.description}
+                      </div>
+                    ) : (
+                      <div className="mt-4 flex items-center gap-2 text-white/80 text-[10px] font-bold tracking-widest uppercase">
+                        {item.category !== 'image_post' && item.category !== 'print' && item.category !== 'videography' && <PlayCircle className="w-4 h-4" />}
+                        {item.category.replace('_', ' ')}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}

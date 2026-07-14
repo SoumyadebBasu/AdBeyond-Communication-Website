@@ -288,47 +288,14 @@ export function Portfolio() {
               </div>
             </div>
             <div className="col-span-12 md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {(portfolioItems || []).filter(item => item.category === 'print' || item.category === 'newsletter').map((item, idx) => {
-                if (idx === 0) {
-                  return (
-                    <div 
-                      key={item.id} 
-                      className="relative h-[400px] rounded-xl overflow-hidden cursor-pointer transition-opacity"
-                      onClick={() => setSelectedPortfolioItem(item)}
-                    >
-                      <HoverMedia item={item} />
-                    </div>
-                  );
-                }
-                if (idx === 1) {
-                  const printItems = (portfolioItems || []).filter(i => i.category === 'print' || i.category === 'newsletter');
-                  const nextItem = printItems[2];
-                  return (
-                    <div key="grid-col" className="grid grid-rows-2 gap-6 h-[400px]">
-                      <div 
-                        className="relative rounded-xl overflow-hidden cursor-pointer transition-opacity"
-                        onClick={() => setSelectedPortfolioItem(item)}
-                      >
-                        <HoverMedia item={item} />
-                      </div>
-                      {nextItem && (
-                        <div 
-                          className="relative rounded-xl overflow-hidden cursor-pointer transition-opacity"
-                          onClick={() => setSelectedPortfolioItem(nextItem)}
-                        >
-                          <HoverMedia item={nextItem} />
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-                if (idx === 2) return null; // already rendered in idx 1
-                
-                // For the 4th image (idx 3) and onwards
+              {(portfolioItems || []).filter(item => item.category === 'print' || item.category === 'newsletter').map((item) => {
+                const isNewsletter = item.category === 'newsletter';
                 return (
                   <div 
                     key={item.id} 
-                    className="relative h-[400px] rounded-xl overflow-hidden cursor-pointer transition-opacity"
+                    className={`relative rounded-xl overflow-hidden cursor-pointer transition-opacity ${
+                      isNewsletter ? 'col-span-12 md:col-span-2 aspect-video' : 'col-span-12 md:col-span-1 h-[400px]'
+                    }`}
                     onClick={() => setSelectedPortfolioItem(item)}
                   >
                     <HoverMedia item={item} />
