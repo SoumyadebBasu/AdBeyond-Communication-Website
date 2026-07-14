@@ -339,52 +339,6 @@ export function Portfolio() {
           </div>
         </div>
       </section>
-
-      {/* Case Studies Section */}
-      <section className="px-8 py-24 bg-surface-container-low">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-headline font-extrabold tracking-tighter mb-4">Case Studies</h2>
-            <p className="text-secondary max-w-xl mx-auto">Deep dives into the strategies that turned goals into tangible social change.</p>
-          </div>
-          {/* Bento-ish Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Case Study 1 */}
-            <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col md:flex-row group h-full">
-              <div className="md:w-1/2 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Majestic icebergs floating in deep blue arctic waters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9j36mICPM_H1F0wksuYqI-bIv789ZWKzlLeQc_TkwBDB5fFY_z_aG5gSF1NH7eR6xUD5Ak04wq3wdZ8cwW2iEEDEfxHa-AAlmxNAEUURCKVsB4VwG5bMirywjfbw14gqKCulQDkKZJrEYnOR6C2WBPavFvFdtnfUS1a47FuuZLnnqrKkhhx-9U-0T8kO5NtCkqMDRHdX-0qi5FBkWdmc2d8IW_ny6KQwx2jX2gDGLjWvDRWImqywjYSeI2-EXUGT6nc9Z-EnfLSwR"/>
-              </div>
-              <div className="md:w-1/2 p-8 flex flex-col justify-between">
-                <div>
-                  <div className="inline-block px-3 py-1 bg-tertiary-container text-white text-xs font-bold rounded-full mb-4">10k Meals Served</div>
-                  <h3 className="text-3xl font-headline font-bold mb-4">Ocean Preservation '24</h3>
-                  <p className="text-secondary leading-relaxed mb-6">Developing a unified brand identity for the global effort to protect marine biodiversity through visual storytelling.</p>
-                </div>
-                <a className="text-primary font-bold flex items-center gap-2 hover:translate-x-1 transition-transform" href="#">
-                  Read More <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-            {/* Case Study 2 */}
-            <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col md:flex-row-reverse group h-full">
-              <div className="md:w-1/2 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Sunlight streaming through tall forest trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCrS_k06bfjjIpM0tO7IR4wynxJ9p8py2JqmABoomMTPUxF6VfW4IU8wtVOv_ioM9hcDN-_mFu832x61SEV7g2CwTXYGdLwY97fGkI3JzJXl4AJtKKYn-XMNS1RB6P0l1A6odln_TZtFVOioZba-WhGBfhOV-QpAh2OAnvoYgyZpoArrjVSfc1erL2hIC7ytCu-Suu8UJVHcXmtU8xxFCVLFbBhGivw5vnEpMxvb1d8uNbqdvQTKfWgDC6bs1qAeswxcEtk5OC6bDp"/>
-              </div>
-              <div className="md:w-1/2 p-8 flex flex-col justify-between">
-                <div>
-                  <div className="inline-block px-3 py-1 bg-tertiary-container text-white text-xs font-bold rounded-full mb-4">Impact Modern</div>
-                  <h3 className="text-3xl font-headline font-bold mb-4">Urban Green Initiative</h3>
-                  <p className="text-secondary leading-relaxed mb-6">Reimagining city spaces through architectural interventions and community-led reforestation campaigns.</p>
-                </div>
-                <a className="text-primary font-bold flex items-center gap-2 hover:translate-x-1 transition-transform" href="#">
-                  Read More <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section className="px-8 py-24 bg-surface">
         <SpotlightCard spotlightSize={250} className="max-w-5xl mx-auto">
