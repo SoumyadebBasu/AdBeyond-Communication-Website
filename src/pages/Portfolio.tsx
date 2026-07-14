@@ -294,11 +294,11 @@ export function Portfolio() {
                   <div 
                     key={item.id} 
                     className={`relative rounded-xl overflow-hidden cursor-pointer transition-opacity ${
-                      isNewsletter ? 'col-span-12 md:col-span-2 aspect-video' : 'col-span-12 md:col-span-1 aspect-[3/4]'
+                      isNewsletter ? 'col-span-12 md:col-span-2 aspect-video' : 'col-span-12 md:col-span-1 h-[400px]'
                     }`}
                     onClick={() => setSelectedPortfolioItem(item)}
                   >
-                    <HoverMedia item={item} contain={true} />
+                    <HoverMedia item={item} />
                   </div>
                 );
               })}

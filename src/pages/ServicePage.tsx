@@ -197,10 +197,7 @@ export function ServicePage() {
                   onClick={() => setSelectedItem(item)}
                 >
                   <img 
-                    className={cn(
-                      "w-full h-full opacity-70 transition-transform duration-700 group-hover:scale-105",
-                      (item.category === 'print' || item.category === 'newsletter') ? 'object-contain bg-neutral-950' : 'object-cover'
-                    )}
+                    className="w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105" 
                     src={getAssetUrl(item.image)} 
                     srcSet={getAssetSrcSet(item.image)}
                     sizes={isNewsletter ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"}
