@@ -192,7 +192,7 @@ export function ServicePage() {
                   key={item.id} 
                   className={cn(
                     "group relative overflow-hidden rounded-3xl bg-neutral-900 cursor-pointer",
-                    isNewsletter ? 'md:col-span-2 aspect-video' : (item.category === 'image_post' ? 'aspect-[5/4]' : 'aspect-[3/4]')
+                    isNewsletter ? 'md:col-span-2 aspect-[3/1]' : (item.category === 'image_post' ? 'aspect-[5/4]' : 'aspect-[3/4]')
                   )}
                   onClick={() => setSelectedItem(item)}
                 >
