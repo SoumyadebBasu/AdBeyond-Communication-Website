@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getAssetUrl, getAssetSrcSet, PortfolioItem } from '../lib/directus';
 
-export const HoverMedia = ({ item, imgClassName, disableHover = false }: { item: PortfolioItem, imgClassName?: string, disableHover?: boolean }) => {
+export const HoverMedia = ({ item, imgClassName, disableHover = false, contain = false }: { item: PortfolioItem, imgClassName?: string, disableHover?: boolean, contain?: boolean }) => {
   const [isHovered, setIsHovered] = useState(false);
   const hasVideo = !disableHover && !!(item.video_file || item.youtube_id);
 
@@ -12,7 +12,7 @@ export const HoverMedia = ({ item, imgClassName, disableHover = false }: { item:
       onMouseLeave={() => setIsHovered(false)}
     >
       {hasVideo && isHovered && (
-        <div className="absolute inset-0 z-0 bg-black animate-in fade-in duration-500">
+        <div className="absolute inset-0 z-0 bg-neutral-950 animate-in fade-in duration-500">
           {item.video_file ? (
             <video 
               src={getAssetUrl(item.video_file, false) || undefined} 
@@ -20,7 +20,7 @@ export const HoverMedia = ({ item, imgClassName, disableHover = false }: { item:
               loop
               muted
               playsInline
-              className="w-full h-full object-cover"
+              className={`w-full h-full ${contain ? 'object-contain' : 'object-cover'}`}
             />
           ) : item.youtube_id ? (
             <iframe 
@@ -34,7 +34,7 @@ export const HoverMedia = ({ item, imgClassName, disableHover = false }: { item:
         </div>
       )}
       <img 
-        className={`${imgClassName || ''} absolute inset-0 w-full h-full object-cover ${hasVideo && isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300 z-10 pointer-events-none`} 
+        className={`${imgClassName || ''} absolute inset-0 w-full h-full ${contain ? 'object-contain bg-neutral-950' : 'object-cover'} ${hasVideo && isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300 z-10 pointer-events-none`} 
         alt={item.title || 'Portfolio item'} 
         src={getAssetUrl(item.image) || undefined}
         srcSet={getAssetSrcSet(item.image) || undefined}
