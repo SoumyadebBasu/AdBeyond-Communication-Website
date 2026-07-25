@@ -55,6 +55,24 @@ export function Home() {
 
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
 
+  useEffect(() => {
+    if (activeVideo) {
+      const handlePopState = () => {
+        setActiveVideo(null);
+      };
+      
+      window.history.pushState({ video: 'playing' }, '', window.location.href);
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+        if (window.history.state?.video === 'playing') {
+          window.history.back();
+        }
+      };
+    }
+  }, [activeVideo]);
+
   // The specific AD-BEYOND map URL provided
   const DEFAULT_MAP_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.0572069797377!2d88.47254367530502!3d22.72611497938271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f8990f37593529%3A0xc2f5c8b7652830f!2sAD-BEYOND!5e0!3m2!1sen!2sin!4v1776075809952!5m2!1sen!2sin";
 

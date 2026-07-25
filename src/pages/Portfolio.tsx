@@ -22,6 +22,24 @@ export function Portfolio() {
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<PortfolioItem | null>(null);
 
   useEffect(() => {
+    if (activeVideo) {
+      const handlePopState = () => {
+        setActiveVideo(null);
+      };
+      
+      window.history.pushState({ video: 'playing' }, '', window.location.href);
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+        if (window.history.state?.video === 'playing') {
+          window.history.back();
+        }
+      };
+    }
+  }, [activeVideo]);
+
+  useEffect(() => {
     async function fetchData() {
       try {
         const svcs = await directus.request(readItems('services', {
